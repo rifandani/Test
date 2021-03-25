@@ -19,7 +19,9 @@ A small restaurant wants to have an app to print a payment receipt, the resto ha
 - Input cashier name
 - Input item and price, for this can be multiple times input until the user said exit
 
-### Test App
+## Solutions
+
+Run the app:
 
 ```bash
 node index.js

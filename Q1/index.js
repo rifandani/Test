@@ -1,18 +1,20 @@
 const readline = require('readline');
 
+// make readline interface to get user input from command line
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+// initial state
 let resto = null;
 let keepGoing = 1;
 let items = [];
 
 // stdout item
 function logItem(text) {
-  const textLength = text.length;
-  const dotLength = 30 - textLength;
+  const textLength = text.length; // text length
+  const dotLength = 30 - textLength; // untuk mengisi jumlah ...
   const dotText = '.'.repeat(dotLength); // '......'
 
   let splittedText = text.split('Rp'); // ['item', '1000']
@@ -24,14 +26,14 @@ function logItem(text) {
 
 // stdout text
 function logConsole(text) {
-  const textLengthDividedBy30 = Math.ceil(text.length / 30);
+  const textLengthDividedBy30 = Math.ceil(text.length / 30); // untuk mengetahui berapa baris text nya
   let first = 0;
   let second = 30;
-  let textArr = [];
+  let textArr = []; // text dibagi per baris nya disimpan dalam array
 
   for (let i = 0; i < textLengthDividedBy30; i++) {
     const slicedText = text.slice(first, second); // get only first 30 chars dan kelipatannya
-    textArr.push(slicedText);
+    textArr.push(slicedText); // push 30 char text pertama ke array
     first += 30;
     second += 30;
   }
@@ -54,7 +56,7 @@ function done() {
   }
 
   console.log(``);
-  const totalPrice = items.reduce((total, el) => total + Number(el.price), 0);
+  const totalPrice = items.reduce((total, el) => total + Number(el.price), 0); // sum total price
   logItem(`TotalRp${totalPrice}`);
 }
 
@@ -64,11 +66,13 @@ function keepQuestioning() {
     rl.question(`Input item ${keepGoing} name: `, (itemName) => {
       rl.question(`Input item ${keepGoing} price: `, (itemPrice) => {
         rl.question('Continue? (yes / no) ', (userContinue) => {
+          // push user input to items array
           items.push({
             name: itemName,
             price: itemPrice,
           });
 
+          // if user agreed to continue
           if (
             userContinue === 'yes' ||
             userContinue === 'y' ||
@@ -77,9 +81,9 @@ function keepQuestioning() {
           ) {
             keepGoing += 1;
 
-            keepQuestioning();
+            keepQuestioning(); // recursive
           } else {
-            done();
+            done(); // selesai
 
             rl.close();
           }

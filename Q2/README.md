@@ -12,9 +12,9 @@ We have [JSON Data](https://gist.github.com/dhamanutd/6993984928506eea49908c2e3f
 6. Find articles that contain "tips" on the title.
 7. Find articles published before August 2019.
 
-### Test App
+## Solutions
 
-For task 1
+To run the solutions for task 1
 
 ```bash
 node task1.js

@@ -10,9 +10,9 @@ We have [JSON Data](https://gist.github.com/dhamanutd/97aa0d2131903ea8c071721032
 4. Find all items were purchased on 16 Januari 2020.
 5. Find all items with brown color.
 
-### Test App
+## Solutions
 
-For task 1
+To run the solutions for task 1
 
 ```bash
 node task1.js
