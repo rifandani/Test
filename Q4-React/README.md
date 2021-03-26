@@ -36,13 +36,17 @@ Clone and run one of these repo to your local machine. Those apps have some erro
 
 ## Solutions
 
-Frontend issues:
+Frontend (React.js) issues:
 
-1. aaa
-2. bbb
-3. ccc
+1. `App.js` file
 
-Backend issues:
+- `client_id` = diisi sesuai dengan oauth apps yang telah dibuat sebelumnya
+- `redirect_uri` =
+
+1. bbb
+2. ccc
+
+Backend (Node.js) issues:
 
 1. `.env` file
 
@@ -62,7 +66,6 @@ Backend issues:
 
 - `const config = require('../config');` should be `const { config } = require('../config');` in line 7
 - `module.export = { redirectUri }` should be `module.exports = { redirectUri }` in line 7
-- aaa
 
 4. `userInfoService.js` file
 
@@ -77,7 +80,6 @@ Backend issues:
 - `const config = require('../config');` should be `const { config } = require('../config');` in line 3
 - `.then((res) => resp.data['accessToken'])` should be `.then((res) => getUserInfo(resp?.data?.access_token))` in line 14
 - `const user = UserServices.getUserInfo(accessToken);` should be `const user = const user = response?.data;` in line 16
-- aasdasd
 
 6. `index.js` file in `src/config` folder
 

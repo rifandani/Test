@@ -31,5 +31,3 @@ function callback(req, res) {
 module.exports = {
   callback: callback,
 };
-
-// cd Q4-React && cd backend && npm run dev

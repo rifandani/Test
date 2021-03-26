@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import axios from "axios";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 
-import PopupWindow from "./popup";
-import { toQuery } from "./utils";
+import PopupWindow from './popup';
+import { toQuery } from './utils';
 
 class GitHubLogin extends Component {
   static propTypes = {
@@ -19,32 +19,12 @@ class GitHubLogin extends Component {
   };
 
   static defaultProps = {
-    buttonText: "Sign in with GitHub",
-    redirectUri: "",
-    scope: "user:email",
+    buttonText: 'Sign in with GitHub',
+    redirectUri: '',
+    scope: 'user:email', // grant access to user email address
     onRequest: () => {},
     onSuccess: () => {},
     onFailure: () => {},
-  };
-
-  onBtnClick = () => {
-    const { clientId, scope, redirectUri } = this.props;
-    const search = toQuery({
-      client_id: clientId,
-      scope,
-      redirect_uri: redirectUri,
-    });
-    const popup = (this.popup = PopupWindow.open(
-      "github-oauth-authorize",
-      `https://github.com/login/oauth/authorize?${search}`,
-      { height: 1000, width: 600 }
-    ));
-
-    this.onRequest();
-    popup.then(
-      (data) => this.onSuccess(data),
-      (error) => this.onFailure(error)
-    );
   };
 
   onRequest = () => {
@@ -56,13 +36,35 @@ class GitHubLogin extends Component {
       return this.onFailure(new Error("'code' not found"));
     }
 
-    this.onGetAccessToken(data);
+    this.onGetAccessToken(data.code);
   };
 
   onFailure = (error) => {
     this.props.onFailure(error);
   };
 
+  // 1 GET https://github.com/login/oauth/authorize
+  onBtnClick = () => {
+    const { clientId, scope, redirectUri } = this.props;
+    const search = toQuery({
+      client_id: clientId,
+      scope,
+      redirect_uri: redirectUri,
+    });
+    const popup = (this.popup = PopupWindow.open(
+      'github-oauth-authorize',
+      `https://github.com/login/oauth/authorize?${search}`,
+      { height: 1000, width: 600 },
+    ));
+
+    this.onRequest();
+    popup.then(
+      (data) => this.onSuccess(data),
+      (error) => this.onFailure(error),
+    );
+  };
+
+  // 2 POST https://github.com/login/oauth/access_token
   onGetAccessToken = (code) => {
     const { clientId, clientSecret } = this.props;
     const body = {
@@ -70,7 +72,7 @@ class GitHubLogin extends Component {
       client_secret: clientSecret,
       code: code,
     };
-    const options = { headers: { accept: "application/json" } };
+    const options = { headers: { accept: 'application/json' } };
     axios
       .post(`https://github.com/login/oauth/access_token`, body, options)
       .then((access_token) => {
@@ -79,12 +81,13 @@ class GitHubLogin extends Component {
       .catch((err) => this.onFailure(err.message));
   };
 
+  // 3
   onGetProfile = (token) => {
     axios({
-      method: "get",
+      method: 'get',
       url: `https://api.github.com/user`,
       headers: {
-        Authorization: "token " + token,
+        Authorization: 'token ' + token,
       },
     }).then((response) => {
       this.props.onSuccess(response.data);
